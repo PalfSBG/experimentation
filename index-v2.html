@@ -110,8 +110,8 @@
         secondaryDropdown.map(m => `${m} (Secondary)`)
       );
 
-      if (audience && change && primary && reason) {
-        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${primary}, and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
+      if (audience && change && primary && reason && selected) {
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${primary} and ultimately , and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
         document.getElementById('result').textContent = hypothesis;
       } else {
         document.getElementById('result').textContent = 'Please fill in all required fields to generate a hypothesis.';
@@ -129,7 +129,7 @@
 
       <div class="space-y-4">
         <div>
-          <label for="target-metric" class="block text-gray-700 font-medium">Target Metric</label>
+          <label for="target-metric" class="block text-gray-700 font-medium">Target Metric (What are you trying to achieve?)</label>
           <select id="target-metric" onchange="updateMetricsFromTarget()" class="mt-1 w-full p-2 border border-gray-300 rounded">
             <optgroup label="Product Metric Framework">
               <option>Total Games Launched (Driving Conversion)</option>
@@ -167,7 +167,7 @@
 
         <div>
           <label for="change" class="block text-gray-700 font-medium">Proposed Change</label>
-          <input type="text" id="change" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. changing the signup button color to green">
+          <input type="text" id="change" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. adding a filter to the product page">
         </div>
 
         <div>
@@ -186,8 +186,8 @@
         </div>
 
         <div>
-          <label for="reason" class="block text-gray-700 font-medium">Reason (why you believe this)</label>
-          <input type="text" id="reason" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. past experiments showed similar behavior">
+          <label for="reason" class="block text-gray-700 font-medium">Reason (Why do you believe this)</label>
+          <input type="text" id="reason" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. evidence to show confidence in your experiment">
         </div>
 
         <div>
