@@ -98,8 +98,8 @@
       const northstar = document.getElementById('northstar-metric').value.trim();
       const reason = document.getElementById('reason').value.trim();
 
-      const secondaryFree = [1, 2, 3].map(i => document.getElementById(`secondary-free-${i}`).value.trim()).filter(v => v);
       const secondaryDropdown = [1, 2, 3].map(i => document.getElementById(`secondary-select-${i}`).value.trim()).filter(v => v);
+      const secondaryFree = [1, 2, 3].map(i => document.getElementById(`secondary-free-${i}`).value.trim()).filter(v => v);
 
       const allMetrics = [
         `${primary} (Primary)`,
@@ -191,13 +191,6 @@
         </div>
 
         <div>
-          <label class="block text-gray-700 font-medium">Secondary Metrics (Free Text)</label>
-          <input type="text" id="secondary-free-1" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
-          <input type="text" id="secondary-free-2" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
-          <input type="text" id="secondary-free-3" class="mt-1 w-full p-2 border border-gray-300 rounded">
-        </div>
-
-        <div>
           <label class="block text-gray-700 font-medium">Secondary Metrics (Select)</label>
           <select id="secondary-select-1" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
             <option value="">-- Select Metric --</option>
@@ -219,6 +212,13 @@
           </select>
         </div>
 
+        <div>
+          <label class="block text-gray-700 font-medium">Secondary Metrics (Free Text)</label>
+          <input type="text" id="secondary-free-1" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+          <input type="text" id="secondary-free-2" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+          <input type="text" id="secondary-free-3" class="mt-1 w-full p-2 border border-gray-300 rounded">
+        </div>
+        
         <button onclick="generateHypothesis()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full font-semibold">
           Generate Hypothesis
         </button>
