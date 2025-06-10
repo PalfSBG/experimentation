@@ -7,45 +7,76 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
     const metricMappings = {
-      'Page Views': {
-        success: 'Page Views per Session',
-        guardrail: 'Bounce Rate',
-        northstar: 'Time on Site'
+      'Active Real Money Player Days': {
+        primary: 'Active Real Money Player Days per Real Money Active User',
+        guardrail: 'Real Money Stakes per Real Money Active User',
+        northstar: 'Active Real Money Player Days'
       },
-      'Session Duration': {
-        success: 'Average Session Duration',
-        guardrail: 'Exit Rate',
-        northstar: 'Engaged Sessions'
+      'Real Money Actives': {
+        primary: 'Real Money Active Conversion',
+        guardrail: 'Active Player Days per Active User',
+        northstar: 'Active Real Money Player Days'
       },
-      'Click-through Rate': {
-        success: 'Click-through Rate',
-        guardrail: 'Unsubscribes',
-        northstar: 'Engagement Rate'
+      'Active Users': {
+        primary: 'Logged-In to Active Conversion',
+        guardrail: 'Logged-In Visits per Logged-In User',
+        northstar: 'Active Real Money Player Days'
       },
-      'Signup Rate': {
-        success: 'Signup Rate',
-        guardrail: 'Form Abandonment',
-        northstar: 'Activation Rate'
+      'Logged-In Users': {
+        primary: 'Visitor to Logged-In Conversion',
+        guardrail: 'Visits per Visit',
+        northstar: 'Active Real Money Player Days'
       },
-      'Purchase Rate': {
-        success: 'Conversion Rate',
-        guardrail: 'Refund Rate',
-        northstar: 'Revenue per User'
+      'Site Visitors': {
+        primary: 'Visitors per Day',
+        guardrail: 'Visits per Visitor',
+        northstar: 'Active Real Money Player Days'
       },
-      'Lead Submission': {
-        success: 'Leads Generated',
-        guardrail: 'Spam Submission Rate',
-        northstar: 'Qualified Leads'
+      'Real Money Bets Placed (Conversion)': {
+        primary: 'Betslip CR% / Game Launch to Real Money Stake',
+        guardrail: 'Real Money Bets Placed per Real Money Active User',
+        northstar: 'Real Money Bets Placed'
       },
-      '7-Day Retention': {
-        success: 'Retention After 7 Days',
-        guardrail: 'Churn Rate',
-        northstar: 'Active User Growth'
+      'Bet Intent (Selections Added/Games Launched)': {
+        primary: 'Conversion To Intent',
+        guardrail: 'Average Game Launches / Selections Added per Visit',
+        northstar: 'Real Money Bets Placed'
       },
-      'Monthly Active Users': {
-        success: 'Monthly Active Users',
-        guardrail: 'Drop-off Rate',
-        northstar: 'Engaged MAUs'
+      'Logged-In Visits': {
+        primary: 'Visit to Logged-In Visit Conversion',
+        guardrail: 'Logged-In Visits per User',
+        northstar: 'Real Money Bets Placed'
+      }
+      'Visits': {
+        primary: 'Visits per Day',
+        guardrail: 'Visits per User',
+        northstar: 'Real Money Bets Placed'
+      }
+      },
+      'Normalised Net Revenue': {
+        primary: 'Generosity Spend per Active User',
+        guardrail: 'Gross Revenue per Active User',
+        northstar: 'Normalised Net Revenue'
+      },
+      'Gross Revenue': {
+        primary: 'Margin %',
+        guardrail: 'Average Stakes per Active User',
+        northstar: 'Normalised Net Revenue'
+      },
+      'Stakes': {
+        primary: 'Average Stakes per Active User',
+        guardrail: 'Real Money Bets Placed per Real Money Active User',
+        northstar: 'Normalised Net Revenue'
+      }
+      'Real Money Bets Placed (Value)': {
+        primary: 'Free Bet %',
+        guardrail: 'Average Stakes per Active User & Bets Placed per Active User',
+        northstar: 'Normalised Net Revenue'
+      }
+      'Bets Placed': {
+        primary: 'Bets Placed per Active User',
+        guardrail: 'Average Stakes per Active User',
+        northstar: 'Normalised Net Revenue'
       }
     };
 
@@ -54,7 +85,7 @@
       const mapping = metricMappings[selected];
 
       if (mapping) {
-        document.getElementById('metric').value = mapping.success;
+        document.getElementById('metric').value = mapping.primary;
         document.getElementById('guardrail-metric').value = mapping.guardrail;
         document.getElementById('northstar-metric').value = mapping.northstar;
       }
@@ -101,17 +132,29 @@
         <div>
           <label for="target-metric" class="block text-gray-700 font-medium">Target Metric</label>
           <select id="target-metric" onchange="updateMetricsFromTarget()" class="mt-1 w-full p-2 border border-gray-300 rounded">
-            <optgroup label="Engagement">
-              <option>Page Views</option>
-              <option>Session Duration</option>
-              <option>Click-through Rate</option>
+            <optgroup label="Product Metric Framework">
+              <option>Total Games Launched (Driving Conversion)</option>
+              <option>Total Logged-In Visits (Driving Conversion)</option>
+              <option>Total Real Money Bets Placed (Driving Conversion)</option>
+              <option>Total Selections Added (Driving Conversion)</option>
+              <option>Total Visits (Driving Conversion)</option>
+              <option>Total Bets Placed (Driving Value)</option>
+              <option>Total Gross Revenue (Driving Value)</option>
+              <option>Total Normalised Net Revenue (Driving Value)</option>
+              <option>Total Real Money Bets Placed (Driving Value)</option>
+              <option>Total Stakes (Driving Value)</option>
+              <option>Total Active Real Money Player Days (Driving Volume)</option>
+              <option>Total Active Users (Driving Volume)</option>
+              <option>Total Logged-In Users (Driving Volume)</option>
+              <option>Total Real Money Actives (Driving Volume)</option>
+              <option>Total Site Visitors (Driving Volume)</option>
             </optgroup>
-            <optgroup label="Conversion">
+            <optgroup label="Customer Metric Framework">
               <option>Signup Rate</option>
               <option>Purchase Rate</option>
               <option>Lead Submission</option>
             </optgroup>
-            <optgroup label="Retention">
+            <optgroup label="Generosity Metric Framework">
               <option>7-Day Retention</option>
               <option>Monthly Active Users</option>
             </optgroup>
