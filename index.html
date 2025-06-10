@@ -10,18 +10,54 @@
       const audience = document.getElementById('audience').value.trim();
       const change = document.getElementById('change').value.trim();
       const metric = document.getElementById('metric').value.trim();
+      const pmfFace = document.getElementById('pmf-face').value;
+      const pmfDetail = document.getElementById('pmf-detail').value.trim();
 
       if (audience && change && metric) {
-        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}.`;
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}. (PMF Face: ${pmfFace} - ${pmfDetail})`;
         document.getElementById('result').textContent = hypothesis;
       } else {
         document.getElementById('result').textContent = 'Please fill in all fields to generate a hypothesis.';
       }
     }
+
+    function updatePMFDetailInput() {
+      const face = document.getElementById('pmf-face').value;
+      const detailContainer = document.getElementById('pmf-detail-container');
+      let placeholder = '';
+
+      switch(face) {
+        case 'Desire':
+          placeholder = 'e.g. increase in search queries';
+          break;
+        case 'Frequency':
+          placeholder = 'e.g. visits per week';
+          break;
+        case 'Retention':
+          placeholder = 'e.g. return rate after 7 days';
+          break;
+        case 'Willingness to Pay':
+          placeholder = 'e.g. percentage upgrading to premium';
+          break;
+        case 'Word of Mouth':
+          placeholder = 'e.g. referral rate';
+          break;
+        default:
+          placeholder = '';
+      }
+
+      detailContainer.innerHTML = `
+        <label for="pmf-detail" class="block text-gray-700 font-medium">PMF Detail</label>
+        <input type="text" id="pmf-detail" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="${placeholder}" />
+      `;
+    }
   </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div class="bg-white shadow-lg rounded-xl p-8 max-w-xl w-full">
+    <div class="flex justify-center mb-4">
+      <img src="https://flutteruki.org/logo.png" alt="Flutter UKI Logo" class="h-16">
+    </div>
     <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Experiment Hypothesis Generator</h1>
 
     <div class="space-y-4">
@@ -39,6 +75,20 @@
         <label for="metric" class="block text-gray-700 font-medium">Success Metric</label>
         <input type="text" id="metric" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. signup conversion rate">
       </div>
+
+      <div>
+        <label for="pmf-face" class="block text-gray-700 font-medium">PMF Face</label>
+        <select id="pmf-face" onchange="updatePMFDetailInput()" class="mt-1 w-full p-2 border border-gray-300 rounded">
+          <option value="">-- Select PMF Face --</option>
+          <option value="Desire">Desire</option>
+          <option value="Frequency">Frequency</option>
+          <option value="Retention">Retention</option>
+          <option value="Willingness to Pay">Willingness to Pay</option>
+          <option value="Word of Mouth">Word of Mouth</option>
+        </select>
+      </div>
+
+      <div id="pmf-detail-container"></div>
 
       <button onclick="generateHypothesis()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full font-semibold">
         Generate Hypothesis
