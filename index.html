@@ -85,7 +85,7 @@
       const mapping = metricMappings[selected];
 
       if (mapping) {
-        document.getElementById('metric').value = mapping.primary;
+        document.getElementById('primary-metric').value = mapping.primary;
         document.getElementById('guardrail-metric').value = mapping.guardrail;
         document.getElementById('northstar-metric').value = mapping.northstar;
       }
@@ -94,7 +94,7 @@
     function generateHypothesis() {
       const audience = document.getElementById('audience').value.trim();
       const change = document.getElementById('change').value.trim();
-      const metric = document.getElementById('metric').value.trim();
+      const primary = document.getElementById('primary-metric').value.trim();
       const guardrail = document.getElementById('guardrail-metric').value.trim();
       const northstar = document.getElementById('northstar-metric').value.trim();
       const reason = document.getElementById('reason').value.trim();
@@ -103,7 +103,7 @@
       const secondaryDropdown = [1, 2, 3].map(i => document.getElementById(`secondary-select-${i}`).value.trim()).filter(v => v);
 
       const allMetrics = [
-        `${metric} (Primary)`,
+        `${primary} (Primary)`,
         `${guardrail} (Guardrail)`,
         `${northstar} (North Star)`
       ].concat(
@@ -111,8 +111,8 @@
         secondaryDropdown.map(m => `${m} (Secondary)`)
       );
 
-      if (audience && change && metric && reason) {
-        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}, and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
+      if (audience && change && primary && reason) {
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${primary}, and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
         document.getElementById('result').textContent = hypothesis;
       } else {
         document.getElementById('result').textContent = 'Please fill in all required fields to generate a hypothesis.';
@@ -172,7 +172,7 @@
         </div>
 
         <div>
-          <label for="metric" class="block text-gray-700 font-medium">Success Metric</label>
+          <label for="metric" class="block text-gray-700 font-medium">Primary Metric</label>
           <input type="text" id="metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
         </div>
 
