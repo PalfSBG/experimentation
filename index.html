@@ -79,23 +79,15 @@
       }
     };
 
-    function updateMetricsFromTarget() {
+    function generateHypothesis() {
       const selected = document.getElementById('target-metric').value;
       const mapping = metricMappings[selected];
-
-      if (mapping) {
-        document.getElementById('primary-metric').value = mapping.primary;
-        document.getElementById('guardrail-metric').value = mapping.guardrail;
-        document.getElementById('northstar-metric').value = mapping.northstar;
-      }
-    }
-
-    function generateHypothesis() {
+      
       const audience = document.getElementById('audience').value.trim();
       const change = document.getElementById('change').value.trim();
-      const primary = document.getElementById('primary-metric').value.trim();
-      const guardrail = document.getElementById('guardrail-metric').value.trim();
-      const northstar = document.getElementById('northstar-metric').value.trim();
+      const primary =  = mapping.primary;
+      const guardrail = mapping.guardrail;
+      const northstar = mapping.northstar;
       const reason = document.getElementById('reason').value.trim();
 
       const secondaryDropdown = [1, 2, 3].map(i => document.getElementById(`secondary-select-${i}`).value.trim()).filter(v => v);
@@ -168,21 +160,6 @@
         <div>
           <label for="change" class="block text-gray-700 font-medium">Proposed Change</label>
           <input type="text" id="change" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. adding a filter to the product page">
-        </div>
-
-        <div>
-          <label for="primary-metric" class="block text-gray-700 font-medium">Primary Metric</label>
-          <input type="text" id="primary-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
-        </div>
-
-        <div>
-          <label for="guardrail-metric" class="block text-gray-700 font-medium">Guardrail Metric</label>
-          <input type="text" id="guardrail-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
-        </div>
-
-        <div>
-          <label for="northstar-metric" class="block text-gray-700 font-medium">North Star Metric</label>
-          <input type="text" id="northstar-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
         </div>
 
         <div>
