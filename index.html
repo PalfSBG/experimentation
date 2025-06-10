@@ -6,50 +6,86 @@
   <title>Experiment Hypothesis Generator</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
+    const metricMappings = {
+      'Page Views': {
+        success: 'Page Views per Session',
+        guardrail: 'Bounce Rate',
+        northstar: 'Time on Site'
+      },
+      'Session Duration': {
+        success: 'Average Session Duration',
+        guardrail: 'Exit Rate',
+        northstar: 'Engaged Sessions'
+      },
+      'Click-through Rate': {
+        success: 'Click-through Rate',
+        guardrail: 'Unsubscribes',
+        northstar: 'Engagement Rate'
+      },
+      'Signup Rate': {
+        success: 'Signup Rate',
+        guardrail: 'Form Abandonment',
+        northstar: 'Activation Rate'
+      },
+      'Purchase Rate': {
+        success: 'Conversion Rate',
+        guardrail: 'Refund Rate',
+        northstar: 'Revenue per User'
+      },
+      'Lead Submission': {
+        success: 'Leads Generated',
+        guardrail: 'Spam Submission Rate',
+        northstar: 'Qualified Leads'
+      },
+      '7-Day Retention': {
+        success: 'Retention After 7 Days',
+        guardrail: 'Churn Rate',
+        northstar: 'Active User Growth'
+      },
+      'Monthly Active Users': {
+        success: 'Monthly Active Users',
+        guardrail: 'Drop-off Rate',
+        northstar: 'Engaged MAUs'
+      }
+    };
+
+    function updateMetricsFromTarget() {
+      const selected = document.getElementById('target-metric').value;
+      const mapping = metricMappings[selected];
+
+      if (mapping) {
+        document.getElementById('metric').value = mapping.success;
+        document.getElementById('guardrail-metric').value = mapping.guardrail;
+        document.getElementById('northstar-metric').value = mapping.northstar;
+      }
+    }
+
     function generateHypothesis() {
       const audience = document.getElementById('audience').value.trim();
       const change = document.getElementById('change').value.trim();
       const metric = document.getElementById('metric').value.trim();
-      const pmfFace = document.getElementById('pmf-face').value;
-      const pmfDetail = document.getElementById('pmf-detail').value.trim();
+      const guardrail = document.getElementById('guardrail-metric').value.trim();
+      const northstar = document.getElementById('northstar-metric').value.trim();
+      const reason = document.getElementById('reason').value.trim();
 
-      if (audience && change && metric) {
-        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}. (PMF Face: ${pmfFace} - ${pmfDetail})`;
+      const secondaryFree = [1, 2, 3].map(i => document.getElementById(`secondary-free-${i}`).value.trim()).filter(v => v);
+      const secondaryDropdown = [1, 2, 3].map(i => document.getElementById(`secondary-select-${i}`).value.trim()).filter(v => v);
+
+      const allMetrics = [
+        `${metric} (Primary)`,
+        `${guardrail} (Guardrail)`,
+        `${northstar} (North Star)`
+      ].concat(
+        secondaryFree.map(m => `${m} (Secondary)`),
+        secondaryDropdown.map(m => `${m} (Secondary)`)
+      );
+
+      if (audience && change && metric && reason) {
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}, and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
         document.getElementById('result').textContent = hypothesis;
       } else {
-        document.getElementById('result').textContent = 'Please fill in all fields to generate a hypothesis.';
+        document.getElementById('result').textContent = 'Please fill in all required fields to generate a hypothesis.';
       }
-    }
-
-    function updatePMFDetailInput() {
-      const face = document.getElementById('pmf-face').value;
-      const detailContainer = document.getElementById('pmf-detail-container');
-      let placeholder = '';
-
-      switch(face) {
-        case 'Desire':
-          placeholder = 'e.g. increase in search queries';
-          break;
-        case 'Frequency':
-          placeholder = 'e.g. visits per week';
-          break;
-        case 'Retention':
-          placeholder = 'e.g. return rate after 7 days';
-          break;
-        case 'Willingness to Pay':
-          placeholder = 'e.g. percentage upgrading to premium';
-          break;
-        case 'Word of Mouth':
-          placeholder = 'e.g. referral rate';
-          break;
-        default:
-          placeholder = '';
-      }
-
-      detailContainer.innerHTML = `
-        <label for="pmf-detail" class="block text-gray-700 font-medium">PMF Detail</label>
-        <input type="text" id="pmf-detail" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="${placeholder}" />
-      `;
     }
   </script>
 </head>
@@ -64,7 +100,7 @@
       <div class="space-y-4">
         <div>
           <label for="target-metric" class="block text-gray-700 font-medium">Target Metric</label>
-          <select id="target-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
+          <select id="target-metric" onchange="updateMetricsFromTarget()" class="mt-1 w-full p-2 border border-gray-300 rounded">
             <optgroup label="Engagement">
               <option>Page Views</option>
               <option>Session Duration</option>
@@ -94,28 +130,58 @@
 
         <div>
           <label for="metric" class="block text-gray-700 font-medium">Success Metric</label>
-          <input type="text" id="metric" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. signup conversion rate">
+          <input type="text" id="metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
         </div>
 
         <div>
-          <label for="pmf-face" class="block text-gray-700 font-medium">PMF Face</label>
-          <select id="pmf-face" onchange="updatePMFDetailInput()" class="mt-1 w-full p-2 border border-gray-300 rounded">
-            <option value="">-- Select PMF Face --</option>
-            <option value="Desire">Desire</option>
-            <option value="Frequency">Frequency</option>
-            <option value="Retention">Retention</option>
-            <option value="Willingness to Pay">Willingness to Pay</option>
-            <option value="Word of Mouth">Word of Mouth</option>
-          </select>
+          <label for="guardrail-metric" class="block text-gray-700 font-medium">Guardrail Metric</label>
+          <input type="text" id="guardrail-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
         </div>
 
-        <div id="pmf-detail-container"></div>
+        <div>
+          <label for="northstar-metric" class="block text-gray-700 font-medium">North Star Metric</label>
+          <input type="text" id="northstar-metric" class="mt-1 w-full p-2 border border-gray-300 rounded">
+        </div>
+
+        <div>
+          <label for="reason" class="block text-gray-700 font-medium">Reason (why you believe this)</label>
+          <input type="text" id="reason" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. past experiments showed similar behavior">
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Secondary Metrics (Free Text)</label>
+          <input type="text" id="secondary-free-1" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+          <input type="text" id="secondary-free-2" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+          <input type="text" id="secondary-free-3" class="mt-1 w-full p-2 border border-gray-300 rounded">
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Secondary Metrics (Select)</label>
+          <select id="secondary-select-1" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+            <option value="">-- Select Metric --</option>
+            <option>Net Promoter Score</option>
+            <option>Time to First Action</option>
+            <option>Average Revenue Per User</option>
+          </select>
+          <select id="secondary-select-2" class="mt-1 w-full p-2 border border-gray-300 rounded mb-2">
+            <option value="">-- Select Metric --</option>
+            <option>Net Promoter Score</option>
+            <option>Time to First Action</option>
+            <option>Average Revenue Per User</option>
+          </select>
+          <select id="secondary-select-3" class="mt-1 w-full p-2 border border-gray-300 rounded">
+            <option value="">-- Select Metric --</option>
+            <option>Net Promoter Score</option>
+            <option>Time to First Action</option>
+            <option>Average Revenue Per User</option>
+          </select>
+        </div>
 
         <button onclick="generateHypothesis()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full font-semibold">
           Generate Hypothesis
         </button>
 
-        <div id="result" class="mt-6 text-gray-800 font-semibold text-lg"></div>
+        <div id="result" class="mt-6 text-gray-800 font-semibold text-lg whitespace-pre-line"></div>
       </div>
     </div>
 
