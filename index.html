@@ -1,7 +1,51 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment Hypothesis Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function generateHypothesis() {
+      const audience = document.getElementById('audience').value.trim();
+      const change = document.getElementById('change').value.trim();
+      const metric = document.getElementById('metric').value.trim();
+
+      if (audience && change && metric) {
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${metric}.`;
+        document.getElementById('result').textContent = hypothesis;
+      } else {
+        document.getElementById('result').textContent = 'Please fill in all fields to generate a hypothesis.';
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-lg rounded-xl p-8 max-w-xl w-full">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Experiment Hypothesis Generator</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label for="audience" class="block text-gray-700 font-medium">Target Audience</label>
+        <input type="text" id="audience" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. new users on mobile">
+      </div>
+
+      <div>
+        <label for="change" class="block text-gray-700 font-medium">Proposed Change</label>
+        <input type="text" id="change" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. changing the signup button color to green">
+      </div>
+
+      <div>
+        <label for="metric" class="block text-gray-700 font-medium">Success Metric</label>
+        <input type="text" id="metric" class="mt-1 w-full p-2 border border-gray-300 rounded" placeholder="e.g. signup conversion rate">
+      </div>
+
+      <button onclick="generateHypothesis()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full font-semibold">
+        Generate Hypothesis
+      </button>
+
+      <div id="result" class="mt-6 text-gray-800 font-semibold text-lg text-center"></div>
+    </div>
+  </div>
 </body>
 </html>
