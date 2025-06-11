@@ -103,7 +103,7 @@
       );
 
       if (audience && change && primary && reason && selected) {
-        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${primary} and ultimately , and we believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
+        const hypothesis = `We believe that ${change} for ${audience} will lead to an increase in ${target} and ultimately ${northstar} without negatively impacting ${guardrail}. We will measure this using ${primary}. We believe this because ${reason}.\n\nMetrics Tracked:\n- ${allMetrics.join('\n- ')}`;
         document.getElementById('result').textContent = hypothesis;
       } else {
         document.getElementById('result').textContent = 'Please fill in all required fields to generate a hypothesis.';
